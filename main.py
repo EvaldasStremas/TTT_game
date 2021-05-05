@@ -22,52 +22,42 @@ def print_grid(grid):
         print(grid[i])
 
 
+def get_user_input(player_indication, axis):
+    print('Player ', player_indication)
+    user_input_row = input('Enter integer in ' + axis + ' axis (From 0 to 2): ')
+
+    if not user_input_row.isdigit():
+        print("No valid integer! Please try again")
+        return None
+
+    user_input_row = int(user_input_row)
+
+    if user_input_row not in range(3):
+        print("Value should be from 0 to 2! Please try again")
+        return None
+
+    return user_input_row
+
+
 def enter_player_input(player_indication, grid):
-    # Checking X or O player enter input is valid integer
-    os.system('cls' if os.name == 'nt' else 'clear')  # 1
+    # Checking X or O player enter input is valid integer.
+    os.system('cls' if os.name == 'nt' else 'clear')
 
     print_grid(grid)
 
-    # print('PLAYER ', player_indication)
-
     while True:
-        # This while loop stands for checking is x and y axis points is already not used in grid
-        try:
-            while True:
-                # This while loop stands for checking valid x axis integer
-                try:
-                    print('PLAYER ', player_indication)
-                    x_axis = input('Enter integer in X axis (From 0 to 2): ')
-                    x_axis = int(x_axis)
-                    break
-                except ValueError:
-                    print("No valid integer! Please try again ...")
-                # except IndexError:
-                #     print("Value should be from 0 to 2! Please try again ...")
+        row = get_user_input(player_indication, axis="X")
+        col = get_user_input(player_indication, axis="Y")
 
-            while True:
-                # This while loop stands for checking valid y axis integer
-                try:
-                    print('PLAYER ', player_indication)
-                    y_axis = input('Enter integer in Y axis (From 0 to 2): ')
-                    y_axis = int(y_axis)
-                    break
-                except ValueError:
-                    print("No valid integer! Please try again ...")
-                # except IndexError:
-                #     print("Value should be from 0 to 2! Please try again ...")
+        if row is None or col is None:
+            continue
 
-            if grid[y_axis][x_axis] != "X" and grid[y_axis][x_axis] != "O":
-                grid[y_axis][x_axis] = player_indication
-                break
-            else:
-                print('Window is already used in grid! Please try again ...')
-                input("Press ENTER")
-                os.system('cls' if os.name == 'nt' else 'clear')
-                print_grid(grid)
+        if grid[col][row] != EMPTY_SYMBOL:
+            print("Place is taken, choose another place")
+            continue
 
-        except ValueError:
-            print()
+        grid[col][row] = player_indication
+        break
 
     return grid
 
@@ -97,8 +87,7 @@ def check_winner(player_indication, grid):
         result_counter = lines_counter.count(player_indication)
         result_list.append(result_counter)
         lines_counter = []
-    # print(result_list)
-    # print(all_players_result)
+
     input("Press ENTER")
 
     os.system('cls' if os.name == 'nt' else 'clear')  # 1
@@ -145,10 +134,6 @@ def main():
 
         grid = enter_player_input('O', grid)
         game_over = check_winner('O', grid)
-
-        print_grid(grid)
-
-        print()
 
 
 if __name__ == '__main__':
