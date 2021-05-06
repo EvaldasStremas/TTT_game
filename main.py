@@ -7,6 +7,7 @@ EMPTY_SYMBOL = " "
 
 
 def get_empty_grid(num_cols, num_rows, empty_symbol):
+    # Function to get empty grid by NUM_ROWS and NUM_COLS variables
     grid = []
 
     for x in range(num_rows):
@@ -18,11 +19,13 @@ def get_empty_grid(num_cols, num_rows, empty_symbol):
 
 
 def print_grid(grid):
+    # Print grid function
     for i in range(NUM_ROWS):
         print(grid[i])
 
 
 def get_user_input(player_indication, axis):
+    # Get user input function with error handling
     print('Player ', player_indication)
     user_input_row = input('Enter integer in ' + axis + ' axis (From 0 to 2): ')
 
@@ -72,7 +75,7 @@ def check_winner(player_indication, grid):
         [[0, 1], [1, 1], [2, 1]],  # 2 vertical line
         [[0, 2], [1, 2], [2, 2]],  # 3 vertical line
         [[2, 2], [1, 1], [0, 0]],  # \ cross line
-        [[2, 0], [1, 1], [0, 2]]  # / cross line
+        [[2, 0], [1, 1], [0, 2]]   # / cross line
     ]
 
     lines_counter = []
@@ -116,7 +119,6 @@ def get_all_players_result(player_indication, grid):
     all_grid_elements_values = x_player_results + o_player_results
 
     return all_grid_elements_values
-
 
 # ------------------------------------MAIN-----------------------------------------
 
