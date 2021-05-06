@@ -1,28 +1,29 @@
 import copy
 import os
+import sys
 
 NUM_ROWS = 3
 NUM_COLS = 3
 EMPTY_SYMBOL = " "
 
+class TicTacToeGame:
+    def __init__(self, player1_mark, player2_mark, player_indication, grid):
+        self.mark1 = player1_mark
+        self.mark2 = player2_mark
+        self.player_indication = player_indication
+        self.grid = grid
 
-def get_empty_grid(num_cols, num_rows, empty_symbol):
-    # Function to get empty grid by NUM_ROWS and NUM_COLS variables
-    grid = []
+    def get_all_players_result(self, player_indication, grid):
+        all_grid_elements_list = []
 
-    for x in range(num_rows):
-        row = []
-        for _ in range(num_cols):
-            row.append(empty_symbol)
-        grid.append(row)
-    return grid
+        for nums in range(NUM_ROWS):
+            for cols in range(NUM_COLS):
+                all_grid_elements_list.append(grid[nums][cols])
+        x_player_results = all_grid_elements_list.count(self.mark1)
+        o_player_results = all_grid_elements_list.count(self.mark2)
+        all_grid_elements_values = x_player_results + o_player_results
 
-
-def print_grid(grid):
-    # Print grid function
-    for i in range(NUM_ROWS):
-        print(grid[i])
-
+        return all_grid_elements_values
 
 def get_user_input(player_indication, axis):
     # Get user input function with error handling
@@ -41,6 +42,21 @@ def get_user_input(player_indication, axis):
 
     return user_input_row
 
+def get_empty_grid(num_cols, num_rows, empty_symbol):
+    # Function to get empty grid by NUM_ROWS and NUM_COLS variables
+    grid = []
+
+    for x in range(num_rows):
+        row = []
+        for _ in range(num_cols):
+            row.append(empty_symbol)
+        grid.append(row)
+    return grid
+
+def print_grid(grid):
+    # Print grid function
+    for i in range(NUM_ROWS):
+        print(grid[i])
 
 def enter_player_input(player_indication, grid):
     # Checking X or O player enter input is valid integer.
@@ -81,7 +97,7 @@ def check_winner(player_indication, grid):
     lines_counter = []
     result_list = []
 
-    all_players_result = get_all_players_result(player_indication, grid)
+    all_players_result = game.get_all_players_result()
 
     for z in range(len(points)):
         for c in range(len(points[z])):
@@ -93,7 +109,7 @@ def check_winner(player_indication, grid):
 
     input("Press ENTER")
 
-    os.system('cls' if os.name == 'nt' else 'clear')  # 1
+    os.system('cls' if os.name == 'nt' else 'clear')
 
     if 3 in result_list:
         print('Winner is ', player_indication, ' palyer')
@@ -107,19 +123,6 @@ def check_winner(player_indication, grid):
 
     print()
 
-
-def get_all_players_result(player_indication, grid):
-    all_grid_elements_list = []
-
-    for nums in range(NUM_ROWS):
-        for cols in range(NUM_COLS):
-            all_grid_elements_list.append(grid[nums][cols])
-    x_player_results = all_grid_elements_list.count('X')
-    o_player_results = all_grid_elements_list.count('O')
-    all_grid_elements_values = x_player_results + o_player_results
-
-    return all_grid_elements_values
-
 # ------------------------------------MAIN-----------------------------------------
 
 def main():
@@ -127,6 +130,8 @@ def main():
     grid = get_empty_grid(NUM_COLS, NUM_ROWS, EMPTY_SYMBOL)
 
     while not game_over:
+
+        game = TicTacToeGame(player1_mark = "X", player2_mark = "O")
 
         grid = enter_player_input('X', grid)
         game_over = check_winner('X', grid)
